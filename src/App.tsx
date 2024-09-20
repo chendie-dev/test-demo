@@ -28,8 +28,8 @@ function App() {
           onClick={scrollDown}
         >
           <svg
-            t="1726805949501"
-            class="icon"
+            // t="1726805949501"
+            className="icon"
             viewBox="0 0 1024 1024"
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"

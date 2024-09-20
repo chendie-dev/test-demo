@@ -68,7 +68,7 @@ export default {
         foreground: 'hsl(var(--foreground))',
         card: {
           DEFAULT: 'white',
-          foreground: 'hsl(var(--card-foreground))',
+          foreground: '#333333',
         },
         popover: {
           DEFAULT: 'hsl(var(--popover))',

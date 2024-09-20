@@ -1,14 +1,8 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import './App.css'
 import avatar from './assets/images/avatar.jpeg'
+import BasicInfomation from './components/app/BasicInfomation'
 
 function App() {
   const scrollDown = () => {
@@ -19,12 +13,12 @@ function App() {
   }
   return (
     <>
-      <div className="h-screen w-screen overflow-hidden animate-fadeOutDown bg-[url('./assets/images/back1.jpeg')] bg-no-repeat bg-center bg-cover text-center">
-        <Avatar className="h-40 w-40 mt-[40vh] ml-[46%] transform transition-transform duration-1000 hover:rotate-[720deg] ">
+      <div className="h-screen w-screen grid items-center justify-items-center overflow-hidden animate-fadeOutDown bg-[url('./assets/images/back1.jpeg')] bg-no-repeat bg-center bg-cover text-center">
+        <Avatar className="h-40 w-40 transform transition-transform duration-1000 hover:rotate-[720deg] ">
           <AvatarImage src={avatar} />
         </Avatar>
         <div
-          className="animate-newbounce absolute bottom-1 left-[49%]"
+          className="animate-newbounce absolute bottom-1 "
           onClick={scrollDown}
         >
           <svg
@@ -45,18 +39,11 @@ function App() {
           </svg>
         </div>
       </div>
-      <div className="grid items-center justify-items-center font-[family-name:var(--font-geist-sans)]">
-        <Card>
-          <CardHeader>
-            <CardTitle>Card Title</CardTitle>
-            <CardDescription>Card Description</CardDescription>
-          </CardHeader>
+      <div className="grid items-center justify-items-center mt-[40px] ">
+        <Card className="w-[65vw]">
           <CardContent>
-            <p>Card Content</p>
+            <BasicInfomation basicInfomation={{}} />
           </CardContent>
-          <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter>
         </Card>
       </div>
     </>

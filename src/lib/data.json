@@ -1,0 +1,18 @@
+{
+  "basicInfo": {
+    "name": "陈蝶",
+    "telNumber": "11111111111",
+    "email": "xxxxxxxxx.com",
+    "sex": "女",
+    "birthday": "xxxxxxxxxx",
+    "workTime": "xxxx-xx-xx",
+    "edcationBack": "本科"
+  },
+  "work": {
+    "company": "秘易智强网络科技(北京)有限公司",
+    "position": "前端开发实习生",
+    "startTime": "2024.01.01",
+    "endTime": "2024.07.01",
+    "responsibility": ""
+  }
+}

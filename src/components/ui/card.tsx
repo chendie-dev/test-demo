@@ -38,7 +38,7 @@ const Card = React.forwardRef<
       className={cn(
         `rounded-xl ${
           isIntersecting ? 'animate-backInUp' : ''
-        } hover:scale-110 transition-transform duration-300 mt-[15px]  bg-card text-card-foreground shadow-2xl w-[max-content]`,
+        }  mt-[15px] mb-[70px]  bg-card text-card-foreground shadow-2xl w-[max-content]`,
         className
       )}
       {...props}

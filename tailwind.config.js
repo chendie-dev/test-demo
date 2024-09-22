@@ -64,12 +64,13 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
-        background: 'hsl(var(--background))',
+        background: 'white',
         foreground: 'hsl(var(--foreground))',
         card: {
           DEFAULT: 'white',
           foreground: '#333333',
         },
+        themeColor: '#F490B6',
         popover: {
           DEFAULT: 'hsl(var(--popover))',
           foreground: 'hsl(var(--popover-foreground))',
@@ -95,7 +96,7 @@ export default {
           foreground: 'hsl(var(--destructive-foreground))',
         },
         border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
+        input: '#d9d9d9',
         ring: 'hsl(var(--ring))',
         chart: {
           1: 'hsl(var(--chart-1))',

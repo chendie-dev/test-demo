@@ -1,16 +1,16 @@
 import { UpdateInfoContext } from '@/App'
-import { work } from '@/lib/types'
+import { project } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import React, { useContext } from 'react'
-import WorkEditOrAdd from './WorkEditOrAdd'
+import ProjectEditOrAdd from './ProjectEditOrAdd'
 
-interface WorkExperienceProps {
-  work: work
+interface ProjectExperienceProps {
+  project: project
   showTopLine: boolean
 }
 
-const WorkExperience: React.FC<WorkExperienceProps> = (props) => {
-  const { work, showTopLine } = props
+const ProjectExperience: React.FC<ProjectExperienceProps> = (props) => {
+  const { project, showTopLine } = props
   const updateInfo = useContext(UpdateInfoContext)
 
   return (
@@ -22,11 +22,11 @@ const WorkExperience: React.FC<WorkExperienceProps> = (props) => {
             'border-t-[1px] border-dashed pt-[10px] border-[#dddddd]'
         )}
       >
-        <span className="bold-text">{work?.company}</span>
+        <span className="bold-text">{project?.name}</span>
         <span className="inline-between">
-          <WorkEditOrAdd
+          <ProjectEditOrAdd
             type="edit"
-            defaultValues={work}
+            defaultValues={project}
             trigger={
               <svg
                 className="icon fill-[#999999] hover:fill-themeColor "
@@ -50,7 +50,7 @@ const WorkExperience: React.FC<WorkExperienceProps> = (props) => {
           <svg
             onClick={() => {
               // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-              updateInfo && updateInfo(undefined, 'work-delete', work?.id)
+              updateInfo && updateInfo(undefined, 'project-delete', project?.id)
             }}
             className="icon fill-[#999999] hover:fill-themeColor"
             viewBox="0 0 1024 1024"
@@ -75,21 +75,19 @@ const WorkExperience: React.FC<WorkExperienceProps> = (props) => {
           </svg>
         </span>
       </div>
-      <div className="box-between gray-smal-text">
-        <span>{work?.position}</span>
-        <span className="inline-between">
-          {work?.startTime?.replaceAll('-', '.') +
-            '~' +
-            work?.endTime?.replaceAll('-', '.')}
-        </span>
+      <div className="detail-item my-[10px] ">
+        项目职责：
+        <div className="text-[black] whitespace-pre-wrap">
+          {project?.responsibility}
+        </div>
       </div>
       <div className="detail-item my-[10px] ">
-        职责描述：
+        项目描述：
         <div className="text-[black] whitespace-pre-wrap">
-          {work?.responsibility}
+          {project?.description}
         </div>
       </div>
     </>
   )
 }
-export default WorkExperience
+export default ProjectExperience

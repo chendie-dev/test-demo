@@ -15,7 +15,23 @@
       "position": "前端开发实习生",
       "startTime": "2024.01.01",
       "endTime": "2024.07.01",
-      "responsibility": ""
+      "responsibility": "React+Redux+Antd Pro+DevExpress+UmiJS+ECharts\n业务:大数据分析、可视化展示、智能提索和移动端适配\n负责系统图表组件、页面轮播组件、OKR展示页面、权限管理、工作票管理开发、二次封装UI、移动端适配以及日常迭代功能实现"
+    }
+  ],
+  "project": [
+    {
+      "id": 1,
+      "name": "blog平台",
+      "position": "前端开发",
+      "responsibility": "作为前端负责人,主导项目的需求调研与分析工作。\n负责前端架构的设计与搭建,制定合理的技术选型和开发方案。\n承担前端页面的开发工作,包括页面布局、样式设计、交互逻辑实现等。\n主导前端组件的开发与封装,参与部分测试工作\n项目亮点:\n利用cdn技术实现全站加速,极大提升访问速度,优化用户体验。\n针对实时搜索框进行防抖优化,有效减少50%以上的http请求,降低服务器压力。\n采用memo和记忆hook对子组件进行优化,降低50%的子组件刷新频率,提高系统性能。\n成功构建C端和B端的sso单点登录机制,简化用户操作流程。\n在C端大量应用css3动画,达成良好的视觉效果,提升用户交互满意度。\n产物:\ngithub地址:\nC端:https://github.com/chendie-dev/blog\nB端:https://github.com/chendie-dev/blog-admin\n运用技术:typescript、sass、reacthooks、react-router、webpack、git、antd、jenkins",
+      "description": "一个可以记录编程学习历程可供他人学习参考的平台。"
+    },
+    {
+      "id": 2,
+      "name": "chrome-translator(浏览器划词翻译插件)",
+      "position": "前端开发",
+      "responsibility": "项目亮点:\n基于chatgpt流式接口实现翻译结果的流式输出,提升翻译响应速度和流畅性。\n通过webpack配置多入口打包,使输出结果适配manifest配置,优化插件的兼容性。\n运用浮动技术,将翻译浮窗显示在视口可视范围内,提高用户使用的便捷性。\n产物:https://github.com/chendie-dev/chrome-translator\n运用技术:react、webpack、antd",
+      "description": "基于chatgpt api的适用于chrome浏览器划词翻译插件。"
     }
   ]
 }

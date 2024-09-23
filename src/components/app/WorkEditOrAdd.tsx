@@ -1,4 +1,5 @@
 import { UpdateInfoContext } from '@/App'
+import { work } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -26,7 +27,7 @@ import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
 interface WorkEditOrAddProps {
   trigger: React.ReactNode
-  defaultValues?: Record<string, any>
+  defaultValues?: work
   type: 'add' | 'edit'
 }
 const WorkEditOrAdd: React.FC<WorkEditOrAddProps> = (props) => {
@@ -123,7 +124,7 @@ const WorkEditOrAdd: React.FC<WorkEditOrAddProps> = (props) => {
                       mode="single"
                       selected={new Date(field.value)}
                       onSelect={(value) => {
-                        field.onChange(format(value, 'yyyy-MM-dd'))
+                        field.onChange(format(value!, 'yyyy-MM-dd'))
                       }}
                       disabled={(date) =>
                         date > new Date() || date < new Date('1900-01-01')
@@ -166,7 +167,7 @@ const WorkEditOrAdd: React.FC<WorkEditOrAddProps> = (props) => {
                       mode="single"
                       selected={new Date(field.value)}
                       onSelect={(value) => {
-                        field.onChange(format(value, 'yyyy-MM-dd'))
+                        field.onChange(format(value!, 'yyyy-MM-dd'))
                       }}
                       disabled={(date) =>
                         date > new Date() || date < new Date('1900-01-01')

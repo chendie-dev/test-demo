@@ -2,6 +2,7 @@ import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
 import * as React from 'react'
 
+import { basicInfo, project, work } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { useEffect, useRef, useState } from 'react'
 import { UseFormReturn } from 'react-hook-form'
@@ -115,14 +116,14 @@ interface DialogFormProps {
   form: UseFormReturn<any>
   children: React.ReactNode
   title: React.ReactNode
-  onFinish: (values: Record<string, any>) => boolean | void
+  onFinish: (values: work | project | basicInfo) => boolean | void
 }
 
 const DialogForm: React.FC<DialogFormProps> = (props) => {
   const { trigger, form, children, title, onFinish } = props
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>()
-  function onSubmit(values: Record<string, any>) {
+  function onSubmit(values: work | project | basicInfo) {
     setOpen(!(onFinish && onFinish(values)))
   }
   useEffect(() => {

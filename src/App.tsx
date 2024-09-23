@@ -10,11 +10,13 @@ import {
 } from '@radix-ui/react-popover'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import './App.css'
 import avatar from './assets/images/avatar.jpeg'
+import ProjectEditOrAdd from './components/app/ProjectEditOrAdd'
+import ProjectExperience from './components/app/ProjectExperience'
 import WorkEditOrAdd from './components/app/WorkEditOrAdd'
 import WorkExperience from './components/app/WorkExperience'
 import { Button } from './components/ui/button'
@@ -36,20 +38,22 @@ import {
   SelectValue,
 } from './components/ui/select'
 import data from './lib/data.json'
+import { basicInfo, project, work } from './lib/types'
 import { cn } from './lib/utils'
 interface menberInfoType {
-  basicInfo: Record<string, any>
-  work: Record<string, any>[]
+  basicInfo: basicInfo
+  work: work[]
+  project: project[]
 }
 export const UpdateInfoContext = createContext<
   | ((
-      value: Record<string, any> | undefined,
+      value: basicInfo | work | project | undefined,
       section: string,
       id?: string
     ) => boolean)
   | undefined
 >(undefined)
-function App() {
+export default function App() {
   const [menberInfo, setMerberInfo] = useState<menberInfoType>(
     JSON.parse(localStorage.getItem('menberInfo') ?? '{}')
   )
@@ -83,33 +87,40 @@ function App() {
     defaultValues: menberInfo?.basicInfo,
   })
 
-  const updateInfo = (
-    value: Record<string, any>,
-    section: string,
-    id?: string
-  ) => {
-    const newMenberInfo = { ...menberInfo }
-    switch (section) {
-      case 'work':
-        if (id) {
-          newMenberInfo.work.forEach((el, index) => {
-            if (el.id === id) {
-              newMenberInfo.work[index] = value
-            }
-          })
-        } else newMenberInfo.work.push(value)
-        break
-      case 'work-delete':
-        newMenberInfo.work = newMenberInfo.work.filter((el) => el?.id !== id)
-        break
-      default:
-        newMenberInfo[section] = value
-        break
-    }
-    setMerberInfo(newMenberInfo)
-    localStorage.setItem('menberInfo', JSON.stringify(newMenberInfo))
-    return true
-  }
+  const updateInfo = useCallback(
+    (
+      value: basicInfo | work | project | undefined,
+      section: string,
+      id?: string
+    ) => {
+      const newMenberInfo = menberInfo
+      switch (section) {
+        case 'project':
+        case 'work':
+          if (id) {
+            newMenberInfo[section]?.forEach((el, index) => {
+              if (el?.id === id) {
+                newMenberInfo[section][index] = value
+              }
+            })
+          } else newMenberInfo[section]?.push(value)
+          break
+        case 'project-delete':
+        case 'work-delete':
+          newMenberInfo[section.split('-')[0]] = newMenberInfo[
+            section.split('-')[0]
+          ]?.filter((el: { id: string | undefined }) => el?.id !== id)
+          break
+        default:
+          newMenberInfo[section] = value
+          break
+      }
+      setMerberInfo(newMenberInfo)
+      localStorage.setItem('menberInfo', JSON.stringify(newMenberInfo))
+      return true
+    },
+    [menberInfo]
+  )
   return (
     <>
       <UpdateInfoContext.Provider value={updateInfo}>
@@ -289,7 +300,12 @@ function App() {
                                 mode="single"
                                 selected={new Date(field.value)}
                                 onSelect={(value) => {
-                                  field.onChange(format(value, 'yyyy-MM-dd'))
+                                  field.onChange(
+                                    format(
+                                      value as string | number | Date,
+                                      'yyyy-MM-dd'
+                                    )
+                                  )
                                 }}
                                 disabled={(date) =>
                                   date > new Date() ||
@@ -338,12 +354,7 @@ function App() {
                                 mode="single"
                                 selected={new Date(field.value)}
                                 onSelect={(value) => {
-                                  // console.log(
-                                  //   value,
-                                  //   format(value, 'yyyy-MM-dd'),
-                                  //   'time'
-                                  // )
-                                  field.onChange(format(value, 'yyyy-MM-dd'))
+                                  field.onChange(format(value!, 'yyyy-MM-dd'))
                                 }}
                                 disabled={(date) =>
                                   date > new Date() ||
@@ -501,27 +512,41 @@ function App() {
                 <span className=" before:content-[''] bold-text  my-[15px]  before:inline-block before:bg-pink-400 before:w-[4px] before:mr-[10px] before:h-[15px]">
                   项目经历
                 </span>
-                <span className="inline-flex items-center text-[14px] cursor-pointer text-pink-400">
-                  <svg
-                    className="icon mr-[5px]"
-                    viewBox="0 0 1024 1024"
-                    version="1.1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    p-id="20970"
-                    width="18"
-                    height="18"
-                  >
-                    <path
-                      d="M511.998976 1024C229.230134 1024 0.002048 794.767818 0.002048 511.998976 0.002048 229.230134 229.230134 0 511.998976 0c282.77089 0 511.998976 229.230134 511.998976 511.998976C1023.997952 794.767818 794.767818 1024 511.998976 1024zM511.998976 64.00192C264.576495 64.00192 64.00192 264.576495 64.00192 511.998976c0 247.422481 200.574575 447.999104 447.997056 447.999104 247.424529 0 447.999104-200.576623 447.999104-447.999104C959.99808 264.576495 759.423505 64.00192 511.998976 64.00192zM703.998592 543.998912l-160.001728 0 0 160.001728c0 17.670109-14.325731 31.99584-31.999936 31.99584-17.672157 0-31.999936-14.325731-31.999936-31.99584l0-160.001728-159.997632 0c-17.672157 0-32.001984-14.327779-32.001984-31.999936 0-17.670109 14.329827-31.997888 32.001984-31.997888l159.997632 0 0-160.003776c0-17.672157 14.329827-31.99584 31.999936-31.99584 17.672157 0 31.999936 14.321635 31.999936 31.99584l0 160.003776 160.001728 0c17.672157 0 31.999936 14.327779 31.999936 31.997888C735.998528 529.671133 721.672797 543.998912 703.998592 543.998912z"
-                      p-id="20971"
-                      fill="#F490B6"
-                    ></path>
-                  </svg>
-                  添加
-                </span>
+                <ProjectEditOrAdd
+                  type="add"
+                  trigger={
+                    <span className="inline-flex items-center mt-[10px] text-[14px] cursor-pointer text-pink-400">
+                      <svg
+                        className="icon mr-[5px]"
+                        viewBox="0 0 1024 1024"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        p-id="20970"
+                        width="18"
+                        height="18"
+                      >
+                        <path
+                          d="M511.998976 1024C229.230134 1024 0.002048 794.767818 0.002048 511.998976 0.002048 229.230134 229.230134 0 511.998976 0c282.77089 0 511.998976 229.230134 511.998976 511.998976C1023.997952 794.767818 794.767818 1024 511.998976 1024zM511.998976 64.00192C264.576495 64.00192 64.00192 264.576495 64.00192 511.998976c0 247.422481 200.574575 447.999104 447.997056 447.999104 247.424529 0 447.999104-200.576623 447.999104-447.999104C959.99808 264.576495 759.423505 64.00192 511.998976 64.00192zM703.998592 543.998912l-160.001728 0 0 160.001728c0 17.670109-14.325731 31.99584-31.999936 31.99584-17.672157 0-31.999936-14.325731-31.999936-31.99584l0-160.001728-159.997632 0c-17.672157 0-32.001984-14.327779-32.001984-31.999936 0-17.670109 14.329827-31.997888 32.001984-31.997888l159.997632 0 0-160.003776c0-17.672157 14.329827-31.99584 31.999936-31.99584 17.672157 0 31.999936 14.321635 31.999936 31.99584l0 160.003776 160.001728 0c17.672157 0 31.999936 14.327779 31.999936 31.997888C735.998528 529.671133 721.672797 543.998912 703.998592 543.998912z"
+                          p-id="20971"
+                          fill="#F490B6"
+                        ></path>
+                      </svg>
+                      添加
+                    </span>
+                  }
+                />
               </div>
+              {menberInfo?.project?.map((el, index) => {
+                return (
+                  <ProjectExperience
+                    showTopLine={index > 0}
+                    key={el.id}
+                    project={el}
+                  />
+                )
+              })}
               {/* 教育经历 */}
-              <div className="box-between">
+              {/* <div className="box-between">
                 <span className=" before:content-[''] bold-text  my-[15px]  before:inline-block before:bg-pink-400 before:w-[4px] before:mr-[10px] before:h-[15px]">
                   教育经历
                 </span>
@@ -543,9 +568,9 @@ function App() {
                   </svg>
                   添加
                 </span>
-              </div>
+              </div> */}
               {/* 获奖经历 */}
-              <div className="box-between">
+              {/* <div className="box-between">
                 <span className=" before:content-[''] bold-text  my-[15px]  before:inline-block before:bg-pink-400 before:w-[4px] before:mr-[10px] before:h-[15px]">
                   获奖经历
                 </span>
@@ -567,7 +592,7 @@ function App() {
                   </svg>
                   添加
                 </span>
-              </div>
+              </div> */}
             </CardContent>
           </Card>
         </div>
@@ -575,5 +600,3 @@ function App() {
     </>
   )
 }
-
-export default App

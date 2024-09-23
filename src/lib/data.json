@@ -1,18 +1,21 @@
 {
   "basicInfo": {
     "name": "陈蝶",
-    "telNumber": "11111111111",
-    "email": "xxxxxxxxx.com",
+    "telNumber": "18090896511",
+    "email": "2563633693@qq.com",
     "sex": "女",
-    "birthday": "xxxxxxxxxx",
-    "workTime": "xxxx-xx-xx",
+    "birthday": "2024-09-17",
+    "workTime": "2024-09-18",
     "edcationBack": "本科"
   },
-  "work": {
-    "company": "秘易智强网络科技(北京)有限公司",
-    "position": "前端开发实习生",
-    "startTime": "2024.01.01",
-    "endTime": "2024.07.01",
-    "responsibility": ""
-  }
+  "work": [
+    {
+      "id": 1,
+      "company": "秘易智强网络科技(北京)有限公司",
+      "position": "前端开发实习生",
+      "startTime": "2024.01.01",
+      "endTime": "2024.07.01",
+      "responsibility": ""
+    }
+  ]
 }

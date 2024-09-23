@@ -72,7 +72,7 @@ export default {
         },
         themeColor: '#F490B6',
         popover: {
-          DEFAULT: 'hsl(var(--popover))',
+          DEFAULT: 'white',
           foreground: 'hsl(var(--popover-foreground))',
         },
         primary: {

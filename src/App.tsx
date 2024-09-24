@@ -40,6 +40,10 @@ import {
 import data from './lib/data.json'
 import { basicInfo, project, work } from './lib/types'
 import { cn } from './lib/utils'
+
+interface menberInfoType {
+  [key: string]: basicInfo | work[] | project[]
+}
 interface menberInfoType {
   basicInfo: basicInfo
   work: work[]
@@ -100,19 +104,19 @@ export default function App() {
           if (id) {
             newMenberInfo[section]?.forEach((el, index) => {
               if (el?.id === id) {
-                newMenberInfo[section][index] = value
+                newMenberInfo[section][index] = value as work & project
               }
             })
-          } else newMenberInfo[section]?.push(value)
+          } else newMenberInfo[section]?.push(value as work & project)
           break
         case 'project-delete':
         case 'work-delete':
-          newMenberInfo[section.split('-')[0]] = newMenberInfo[
-            section.split('-')[0]
-          ]?.filter((el: { id: string | undefined }) => el?.id !== id)
+          newMenberInfo[section.split('-')[0]] = (
+            newMenberInfo[section.split('-')[0]] as work[]
+          ).filter((el: { id: string | undefined }) => el?.id !== id)
           break
         default:
-          newMenberInfo[section] = value
+          newMenberInfo.basicInfo = value as basicInfo
           break
       }
       setMerberInfo(newMenberInfo)

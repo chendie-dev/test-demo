@@ -25,10 +25,13 @@ const ProjectEditOrAdd: React.FC<ProjectEditOrAddProps> = (props) => {
   const form = useForm({
     resolver: zodResolver(
       z.object({
-        name: z.string(),
-        position: z.string(),
-        description: z.string(),
-        responsibility: z.string(),
+        name: z
+          .string()
+          .min(2, { message: '请输入2-50个字' })
+          .max(50, { message: '请输入2-50个字' }),
+        position: z.string().optional(),
+        description: z.string().optional(),
+        responsibility: z.string().optional(),
       })
     ),
     defaultValues: defaultValues,

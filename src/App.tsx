@@ -2,6 +2,7 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Calendar } from '@/components/ui/calendar'
 import { Card, CardContent } from '@/components/ui/card'
 import { DialogForm } from '@/components/ui/dialog'
+import { Toaster } from '@/components/ui/toaster'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Popover,
@@ -37,6 +38,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from './components/ui/select'
+import { useToast } from './hooks/use-toast'
 import data from './lib/data.json'
 import { basicInfo, project, work } from './lib/types'
 import { cn } from './lib/utils'
@@ -61,6 +63,7 @@ export default function App() {
   const [menberInfo, setMerberInfo] = useState<menberInfoType>(
     JSON.parse(localStorage.getItem('menberInfo') ?? '{}')
   )
+  const { toast } = useToast()
   useEffect(() => {
     let menberInfo = JSON.parse(localStorage.getItem('menberInfo') ?? '{}')
     if (Object.keys(menberInfo).length == 0) {
@@ -79,11 +82,20 @@ export default function App() {
   const form = useForm({
     resolver: zodResolver(
       z.object({
-        name: z.string().min(2).max(50),
-        telNumber: z.string().min(11).max(11),
-        email: z.string(),
-        sex: z.string(),
-        birthday: z.string(),
+        name: z
+          .string()
+          .min(2, { message: '请输入2-50个字' })
+          .max(50, { message: '请输入2-50个字' }),
+        telNumber: z
+          .string()
+          .min(11, { message: '请输入11位数字' })
+          .max(11, { message: '请输入11位数字' }),
+        email: z
+          .string()
+          .email({ message: '请输入有效的电子邮件地址' })
+          .optional(),
+        sex: z.string().optional(),
+        birthday: z.string().optional(),
         workTime: z.string(),
         edcationBack: z.string(),
       })
@@ -97,7 +109,8 @@ export default function App() {
       section: string,
       id?: string
     ) => {
-      const newMenberInfo = menberInfo
+      // debugger
+      const newMenberInfo = { ...menberInfo }
       switch (section) {
         case 'project':
         case 'work':
@@ -107,7 +120,7 @@ export default function App() {
                 newMenberInfo[section][index] = value as work & project
               }
             })
-          } else newMenberInfo[section]?.push(value as work & project)
+          } else newMenberInfo[section]?.unshift(value as work & project)
           break
         case 'project-delete':
         case 'work-delete':
@@ -121,6 +134,28 @@ export default function App() {
       }
       setMerberInfo(newMenberInfo)
       localStorage.setItem('menberInfo', JSON.stringify(newMenberInfo))
+      toast({
+        description: (
+          <div className="flex space-between">
+            <svg
+              className="icon"
+              viewBox="0 0 1024 1024"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              p-id="25764"
+              width="48"
+              height="48"
+            >
+              <path
+                d="M874.119618 149.859922A510.816461 510.816461 0 0 0 511.997 0.00208a509.910462 509.910462 0 0 0-362.119618 149.857842c-199.817789 199.679789-199.817789 524.581447 0 724.260236a509.969462 509.969462 0 0 0 362.119618 149.857842A508.872463 508.872463 0 0 0 874.119618 874.120158c199.836789-199.679789 199.836789-524.581447 0-724.260236zM814.94268 378.210681L470.999043 744.132295a15.359984 15.359984 0 0 1-5.887994 4.095996c-1.751998 1.180999-2.913997 2.362998-5.276994 2.913997a34.499964 34.499964 0 0 1-13.469986 2.914997 45.547952 45.547952 0 0 1-12.897986-2.303998l-4.095996-2.363997a45.291952 45.291952 0 0 1-7.009992-4.095996l-196.902793-193.789796a34.126964 34.126964 0 0 1-10.555989-25.186973c0-9.37399 3.583996-18.74698 9.98399-25.186974a36.429962 36.429962 0 0 1 50.372947 0l169.98382 167.423824L763.389735 330.220732a37.059961 37.059961 0 0 1 50.371947-1.732998 33.647965 33.647965 0 0 1 11.165988 25.186973 35.544963 35.544963 0 0 1-9.98399 24.575974v-0.04z m0 0"
+                fill="#52C41A"
+                p-id="25765"
+              ></path>
+            </svg>
+            <p className="ml-[15px] mt-[10px]">操作成功</p>
+          </div>
+        ),
+      })
       return true
     },
     [menberInfo]
@@ -128,6 +163,7 @@ export default function App() {
   return (
     <>
       <UpdateInfoContext.Provider value={updateInfo}>
+        <Toaster />
         <div className="h-screen w-screen grid items-center justify-items-center overflow-hidden animate-fadeOutDown bg-[url('./assets/images/back1.jpeg')] bg-no-repeat bg-center bg-cover text-center">
           <Avatar className="h-40 w-40 transform transition-transform duration-1000 hover:rotate-[720deg] ">
             <AvatarImage src={avatar} />

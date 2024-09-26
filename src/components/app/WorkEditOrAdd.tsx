@@ -37,7 +37,7 @@ const WorkEditOrAdd: React.FC<WorkEditOrAddProps> = (props) => {
     resolver: zodResolver(
       z.object({
         company: z
-          .string()
+          .string({ message: '必须输入' })
           .min(2, { message: '请输入2-50个字' })
           .max(50, { message: '请输入2-50个字' }),
         position: z.string().optional(),
@@ -46,7 +46,7 @@ const WorkEditOrAdd: React.FC<WorkEditOrAddProps> = (props) => {
         responsibility: z.string().optional(),
       })
     ),
-    defaultValues: defaultValues,
+    // defaultValues: defaultValues,
   })
   return (
     <>

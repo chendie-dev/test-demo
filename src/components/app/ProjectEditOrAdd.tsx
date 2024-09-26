@@ -26,7 +26,7 @@ const ProjectEditOrAdd: React.FC<ProjectEditOrAddProps> = (props) => {
     resolver: zodResolver(
       z.object({
         name: z
-          .string()
+          .string({ message: '必须输入' })
           .min(2, { message: '请输入2-50个字' })
           .max(50, { message: '请输入2-50个字' }),
         position: z.string().optional(),

@@ -94,6 +94,7 @@ export default {
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
+          error: 'red',
         },
         border: 'hsl(var(--border))',
         input: '#d9d9d9',

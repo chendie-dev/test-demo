@@ -4,7 +4,7 @@ import * as React from 'react'
 
 import { basicInfo, project, work } from '@/lib/types'
 import { cn } from '@/lib/utils'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 import { Button } from './button'
 import { Form } from './form'
@@ -122,18 +122,25 @@ interface DialogFormProps {
 const DialogForm: React.FC<DialogFormProps> = (props) => {
   const { trigger, form, children, title, onFinish } = props
   const [open, setOpen] = useState(false)
-  const formRef = useRef<HTMLFormElement>(null)
   function onSubmit(values: work | project | basicInfo) {
     setOpen(!(onFinish && onFinish(values)))
   }
   useEffect(() => {
     if (!open) {
-      formRef.current?.reset()
+      const values: work | project | basicInfo = form?.getValues()
+      Object.keys(values)?.forEach((value) => {
+        form.resetField(value)
+      })
     }
-  }, [open])
+  }, [open, form])
   return (
     <>
-      <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
+      <Dialog
+        open={open}
+        onOpenChange={(open) => {
+          setOpen(open)
+        }}
+      >
         <span onClick={() => setOpen(true)}>{trigger}</span>
         <DialogContent>
           <DialogHeader>
@@ -143,10 +150,8 @@ const DialogForm: React.FC<DialogFormProps> = (props) => {
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-8"
-                  ref={formRef}
                 >
                   {children}
-
                   <Button
                     className=" bg-themeColor text-white float-end"
                     type="submit"
